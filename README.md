@@ -8,7 +8,15 @@ SupportHive-C is a systems-level backend designed for sub-millisecond orchestrat
 
 Unlike traditional web applications built in Rails or Node, SupportHive-C uses a **single-threaded non-blocking event loop** (libuv) to manage thousands of concurrent ticket lifecycles with minimal overhead.
 
-### Core Components
+## 🏗️ Architectural Flow
+```text
+[ Client ] <--> [ libuv Layer ] <--> [ http-parser ]
+                     |                    |
+                     |             [ JSON Logic (cJSON) ]
+                     |                    |
+              [ SLA Engine ] <------> [ SQLite3 DB ]
+              (Async Timers)          (Multi-Tenant)
+```
 - **Event Loop**: `libuv` (the engine inside Node.js).
 - **HTTP Engine**: Zero-copy parsing via `http-parser`.
 - **Concurrency**: Purely event-driven; no thread-switching latency.
