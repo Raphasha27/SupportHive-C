@@ -67,9 +67,46 @@ void handle_post_ticket(uv_stream_t *client, const char *tenant_id, const char *
     cJSON_Delete(json);
 }
 
+void handle_list_tickets(uv_stream_t *client, const char *tenant_id) {
+    if (!tenant_id || strlen(tenant_id) == 0) {
+        send_response(client, "400 Bad Request", "{\"error\":\"Missing X-Tenant-ID\"}");
+        return;
+    }
+
+    ticket_t *tickets;
+    int count;
+    if (db_get_tickets(tenant_id, &tickets, &count) == 0) {
+        cJSON *root = cJSON_CreateArray();
+        for (int i = 0; i < count; i++) {
+            cJSON *item = cJSON_CreateObject();
+            cJSON_AddNumberToObject(item, "id", tickets[i].id);
+            cJSON_AddStringToObject(item, "title", tickets[i].title);
+            cJSON_AddStringToObject(item, "priority", tickets[i].priority);
+            cJSON_AddStringToObject(item, "status", tickets[i].status);
+            cJSON_AddNumberToObject(item, "escalation", tickets[i].escalation_level);
+            cJSON_AddStringToObject(item, "created_at", tickets[i].created_at);
+            cJSON_AddItemToArray(root, item);
+        }
+        char *json_out = cJSON_PrintUnformatted(root);
+        send_response(client, "200 OK", json_out);
+        free(json_out);
+        cJSON_Delete(root);
+        if (tickets) free(tickets);
+    } else {
+        send_response(client, "500 Internal Error", "{\"error\":\"Fetch error\"}");
+    }
+}
+
 void handle_request(uv_stream_t *client, const char *method, const char *url, const char *tenant_id, const char *body) {
+    if (strcmp(method, "OPTIONS") == 0) {
+        send_response(client, "204 No Content", "");
+        return;
+    }
+
     if (strcmp(method, "POST") == 0 && strcmp(url, "/tickets") == 0) {
         handle_post_ticket(client, tenant_id, body);
+    } else if (strcmp(method, "GET") == 0 && strcmp(url, "/tickets") == 0) {
+        handle_list_tickets(client, tenant_id);
     } else if (strcmp(method, "GET") == 0 && strcmp(url, "/stats") == 0) {
         handle_stats(client, tenant_id);
     } else if (strcmp(url, "/") == 0) {

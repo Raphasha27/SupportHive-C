@@ -119,6 +119,44 @@ int db_log_escalation(int ticket_id, int level) {
     return (rc == SQLITE_DONE) ? 0 : 1;
 }
 
+int db_get_tickets(const char *tenant_id, ticket_t **out_tickets, int *count) {
+    sqlite3_stmt *stmt;
+    const char *sql_count = "SELECT COUNT(*) FROM tickets WHERE tenant_id = ?;";
+    sqlite3_prepare_v2(db, sql_count, -1, &stmt, NULL);
+    sqlite3_bind_text(stmt, 1, tenant_id, -1, SQLITE_STATIC);
+    if (sqlite3_step(stmt) != SQLITE_ROW) {
+        sqlite3_finalize(stmt);
+        return 1;
+    }
+    *count = sqlite3_column_int(stmt, 0);
+    sqlite3_finalize(stmt);
+
+    if (*count == 0) {
+        *out_tickets = NULL;
+        return 0;
+    }
+
+    *out_tickets = (ticket_t*)malloc(sizeof(ticket_t) * (*count));
+    const char *sql = "SELECT id, tenant_id, title, priority, status, escalation_level, created_at FROM tickets WHERE tenant_id = ? ORDER BY created_at DESC;";
+    sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    sqlite3_bind_text(stmt, 1, tenant_id, -1, SQLITE_STATIC);
+
+    int i = 0;
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        ticket_t *t = &((*out_tickets)[i]);
+        t->id = sqlite3_column_int(stmt, 0);
+        strncpy(t->tenant_id, (const char*)sqlite3_column_text(stmt, 1), 63);
+        strncpy(t->title, (const char*)sqlite3_column_text(stmt, 2), 255);
+        strncpy(t->priority, (const char*)sqlite3_column_text(stmt, 3), 15);
+        strncpy(t->status, (const char*)sqlite3_column_text(stmt, 4), 15);
+        t->escalation_level = sqlite3_column_int(stmt, 5);
+        strncpy(t->created_at, (const char*)sqlite3_column_text(stmt, 6), 31);
+        i++;
+    }
+    sqlite3_finalize(stmt);
+    return 0;
+}
+
 int db_get_stats(const char *tenant_id, int *open_count, int *breach_count) {
     sqlite3_stmt *stmt;
     const char *sql = "SELECT "

@@ -66,11 +66,14 @@ void on_read(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf);
 void on_close(uv_handle_t *handle);
 
 void send_response(uv_stream_t *client, const char *status, const char *body) {
-    char response[1024];
+    char response[2048];
     snprintf(response, sizeof(response),
         "HTTP/1.1 %s\r\n"
         "Content-Type: application/json\r\n"
         "Content-Length: %zu\r\n"
+        "Access-Control-Allow-Origin: *\r\n"
+        "Access-Control-Allow-Methods: GET, POST, OPTIONS\r\n"
+        "Access-Control-Allow-Headers: Content-Type, X-Tenant-ID\r\n"
         "Connection: close\r\n"
         "\r\n"
         "%s",

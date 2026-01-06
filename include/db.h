@@ -36,7 +36,8 @@ int db_get_ticket(int id, const char *tenant_id, ticket_t *out_ticket);
 int db_update_escalation(int ticket_id, int level);
 int db_log_escalation(int ticket_id, int level);
 
-// Stats
+// Stats & Listing
+int db_get_tickets(const char *tenant_id, ticket_t **out_tickets, int *count);
 int db_get_stats(const char *tenant_id, int *open_count, int *breach_count);
 
 #endif
