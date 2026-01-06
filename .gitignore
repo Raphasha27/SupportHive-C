@@ -1,19 +1,64 @@
+# Build Artifacts
 build/
-tools/
-*.db
-*.exe
-*.obj
-*.o
-*.a
 bin/
 lib/
+obj/
+*.o
+*.obj
+*.exe
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+
+# Dependencies
+tools/
 _deps/
+
+# Database & Logs
+*.db
+*.log
+supporthive.db
+
+# CMake
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
 Makefile
-full_build_log.txt
-full_build_log_v2.txt
-full_build_log_v3.txt
-full_build_log_v4.txt
-supporthive.db
+*.cmake
+CTestTestfile.cmake
+install_manifest.txt
+
+# IDEs & Editors
+.vscode/
+.vs/
+.idea/
+*.swp
+*.swo
+*.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Temporary / OS
+Thumbs.db
+[Ee]xpress/
+[Bb]uild/
+[Rr]elease/
+[Dd]ebug/
+ipch/
+*.aps
+*.bak
+*.cache
+*.ilk
+*.log
+*.pdb
+*.suo
+*.user
+*.userosscache
+*.sln
+*.vcxproj
+*.filters
+
+# Specific Logs
+full_build_log*.txt
