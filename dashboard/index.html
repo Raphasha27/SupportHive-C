@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SupportHive-C | Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --accent: #f59e0b;
+            --bg: #0f172a;
+            --glass: rgba(30, 41, 59, 0.7);
+            --text: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding: 1.5rem;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-style: normal;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--glass);
+            padding: 1.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+        }
+
+        .stat-val {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.6;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+        }
+
+        .panel {
+            background: var(--glass);
+            padding: 2rem;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Tickets List */
+        .ticket-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .ticket-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .ticket-item:hover {
+            background: rgba(255,255,255,0.06);
+        }
+
+        .info-col {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .priority-badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+        }
+
+        .badge-P1 { background: #ef4444; color: white; }
+        .badge-P2 { background: #f59e0b; color: white; }
+        .badge-P3 { background: #10b981; color: white; }
+
+        .ticket-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .ticket-meta {
+            font-size: 0.75rem;
+            opacity: 0.5;
+        }
+
+        .status-col {
+            text-align: right;
+        }
+
+        .escalation-warning {
+            color: #ef4444;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 4px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🐝 SupportHive-C <i>Engine</i></div>
+            <div class="tenant-selector">
+                <input type="text" id="tenantInput" value="apple-inc" style="width: 150px; font-size: 0.8rem;">
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-val" id="openTickets">0</div>
+                <div class="stat-label">Open Tickets</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="breachCount" style="color: #ef4444;">0</div>
+                <div class="stat-label">SLA Breaches</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val">C11</div>
+                <div class="stat-label">Core Runtime</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val">libuv</div>
+                <div class="stat-label">Event Loop</div>
+            </div>
+        </div>
+
+        <div class="main-layout">
+            <div class="panel">
+                <h2>➕ New Support Ticket</h2>
+                <div class="form-group">
+                    <label>Issue Description</label>
+                    <input type="text" id="ticketTitle" placeholder="e.g. Server unreachable">
+                </div>
+                <div class="form-group">
+                    <label>SLA Priority</label>
+                    <select id="ticketPriority">
+                        <option value="P1">P1 - Critical (5s demo)</option>
+                        <option value="P2" selected>P2 - High (15s demo)</option>
+                        <option value="P3">P3 - Standard (60s)</option>
+                    </select>
+                </div>
+                <button id="createBtn">Initialize Ticket</button>
+            </div>
+
+            <div class="panel">
+                <h2>📋 Active Orchestration</h2>
+                <div class="ticket-list" id="ticketContainer">
+                    <div class="loading">Waiting for event loop...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://192.168.18.204:7000';
+        const getTenant = () => document.getElementById('tenantInput').value;
+
+        async function fetchStats() {
+            try {
+                const res = await fetch(`${API_URL}/stats`, {
+                    headers: { 'X-Tenant-ID': getTenant() }
+                });
+                const data = await res.json();
+                document.getElementById('openTickets').innerText = data.open_tickets || 0;
+                document.getElementById('breachCount').innerText = data.sla_breaches || 0;
+            } catch (e) { console.error("Stats fail", e); }
+        }
+
+        async function fetchTickets() {
+            try {
+                const res = await fetch(`${API_URL}/tickets`, {
+                    headers: { 'X-Tenant-ID': getTenant() }
+                });
+                const tickets = await res.json();
+                renderTickets(tickets);
+            } catch (e) { console.error("Ticket list fail", e); }
+        }
+
+        function renderTickets(tickets) {
+            const container = document.getElementById('ticketContainer');
+            if (tickets.length === 0) {
+                container.innerHTML = '<div class="loading">No active tickets for this tenant</div>';
+                return;
+            }
+
+            container.innerHTML = tickets.map(t => `
+                <div class="ticket-item">
+                    <div class="info-col">
+                        <div>
+                            <span class="priority-badge badge-${t.priority}">${t.priority}</span>
+                            <span class="ticket-title">${t.title}</span>
+                        </div>
+                        <div class="ticket-meta">ID: #${t.id} | Created: ${t.created_at}</div>
+                    </div>
+                    <div class="status-col">
+                        <div style="font-weight: 600; font-size: 0.9rem; color: ${t.status === 'open' ? '#10b981' : '#fff'}">
+                            ${t.status.toUpperCase()}
+                        </div>
+                        ${t.escalation > 0 ? `<div class="escalation-warning">SLA BREACHED</div>` : `<div style="font-size: 0.7rem; opacity: 0.5">Monitoring Active</div>`}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('createBtn').addEventListener('click', async () => {
+            const title = document.getElementById('ticketTitle').value;
+            const priority = document.getElementById('ticketPriority').value;
+
+            if (!title) return alert("Description required");
+
+            try {
+                const res = await fetch(`${API_URL}/tickets`, {
+                    method: 'POST',
+                    headers: { 
+                        'X-Tenant-ID': getTenant(),
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title, priority })
+                });
+                
+                if (res.ok) {
+                    document.getElementById('ticketTitle').value = '';
+                    fetchTickets();
+                    fetchStats();
+                }
+            } catch (e) { alert("Server connection lost"); }
+        });
+
+        // Polling loop (replaces real-time for pure C simplicity)
+        setInterval(() => {
+            fetchStats();
+            fetchTickets();
+        }, 1000);
+
+        // Initial load
+        window.onload = () => {
+            fetchStats();
+            fetchTickets();
+        };
+    </script>
+</body>
+</html>

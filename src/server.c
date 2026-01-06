@@ -65,11 +65,11 @@ void on_alloc(uv_handle_t *handle, size_t suggested_size, uv_buf_t *buf);
 void on_read(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf);
 void on_close(uv_handle_t *handle);
 
-void send_response(uv_stream_t *client, const char *status, const char *body) {
-    char response[2048];
+void send_response(uv_stream_t *client, const char *status, const char *body, const char *content_type) {
+    char response[8192]; // Increased for large HTML files
     snprintf(response, sizeof(response),
         "HTTP/1.1 %s\r\n"
-        "Content-Type: application/json\r\n"
+        "Content-Type: %s\r\n"
         "Content-Length: %zu\r\n"
         "Access-Control-Allow-Origin: *\r\n"
         "Access-Control-Allow-Methods: GET, POST, OPTIONS\r\n"
@@ -77,7 +77,7 @@ void send_response(uv_stream_t *client, const char *status, const char *body) {
         "Connection: close\r\n"
         "\r\n"
         "%s",
-        status, strlen(body), body);
+        status, content_type, strlen(body), body);
 
     uv_write_t *req = (uv_write_t *)malloc(sizeof(uv_write_t));
     uv_buf_t buf = uv_buf_init(strdup(response), strlen(response));

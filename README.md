@@ -39,6 +39,16 @@ The project includes a **portable toolchain** (CMake + GCC) inside the `./tools`
 ./build/supporthive.exe
 ```
 
+## 📱 Mobile Access (Android/iOS)
+The engine now serves its own dashboard! Review it in real-time on your mobile device:
+1. Ensure your phone is on the same Wi-Fi as your computer.
+2. Open your mobile browser.
+3. Navigate to: `http://192.168.18.204:7000/dashboard`
+
+## 📊 Visual Showcase
+![SupportHive Dashboard](assets/dashboard_main.png)
+*Figure 1: The Command Center showing active ticket orchestration and real-time SLA breach monitoring.*
+
 ## 🧪 API Usage
 
 ### 1. Create a Ticket
