@@ -25,7 +25,6 @@ supporthive.db
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
-Makefile
 *.cmake
 CTestTestfile.cmake
 install_manifest.txt
