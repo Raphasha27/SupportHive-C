@@ -1,0 +1,28 @@
+version: 2
+updates:
+  # Python / FastAPI backend
+  - package-ecosystem: "pip"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "chore"
+      - "dependencies"
+
+  # Node.js / React / Next.js frontend
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "chore"
+      - "dependencies"
+
+  # GitHub Actions themselves
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "chore"
+      - "ci"
