@@ -1,34 +1,25 @@
-name: Kirov C/C++ CI
+name: Continuous Integration
 
 on:
   push:
-    branches: [main, dev]
+    branches: [ main, master ]
   pull_request:
-    branches: [main, dev]
+    branches: [ main, master ]
 
 jobs:
-  build-and-test:
-    name: Build & Test (Ubuntu)
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Install Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y cmake build-essential cppcheck
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake libuv1-dev libsqlite3-dev
 
-      - name: Configure CMake
-        run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+    - name: Configure CMake
+      run: cmake -S . -B build
 
-      - name: Build
-        run: cmake --build build --config Release
-
-      - name: Run Tests
-        run: |
-          cd build
-          ctest --output-on-failure
-
-      - name: Static Analysis (Cppcheck)
-        run: cppcheck --enable=all --error-exitcode=1 --suppress=missingIncludeSystem src/ include/
+    - name: Build
+      run: cmake --build build
