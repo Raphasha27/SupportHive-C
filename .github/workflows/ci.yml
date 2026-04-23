@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: Build & Test (C++)
     runs-on: ubuntu-latest
 
     steps:
@@ -23,3 +24,18 @@ jobs:
 
     - name: Build
       run: cmake --build build
+
+  security_scan:
+    name: Security Scan (Trivy)
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
