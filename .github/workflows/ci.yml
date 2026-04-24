@@ -10,7 +10,8 @@ on:
 jobs:
   build: 
     name: Build & Test (C++)
-    runs-on: - uses: actions/checkout@v4
+    runs-on: -
+    uses: actions/checkout@v4
 
     - name: Install dependencies
       run: |
@@ -26,7 +27,8 @@ jobs:
   security_scan: 
     name: Security Scan (Trivy)
     needs: build
-    runs-on: - uses: actions/checkout@v4
+    runs-on: -
+    uses: actions/checkout@v4
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
