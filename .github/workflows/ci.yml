@@ -14,15 +14,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-    - name: Install dependencies
+      - name: Install dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential cmake libuv1-dev libsqlite3-dev
 
-    - name: Configure CMake
+      - name: Configure CMake
       run: cmake -S . -B build
 
-    - name: Build
+      - name: Build
       run: cmake --build build
 
   security_scan: 
