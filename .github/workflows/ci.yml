@@ -2,21 +2,15 @@ name: Continuous Integration
 
 on:
   workflow_dispatch:
-
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
 
 jobs:
-  build:
+  build: 
     name: Build & Test (C++)
-    runs-on:
-  workflow_dispatch:
- ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
+    runs-on: - uses: actions/checkout@v4
 
     - name: Install dependencies
       run: |
@@ -29,14 +23,10 @@ jobs:
     - name: Build
       run: cmake --build build
 
-  security_scan:
+  security_scan: 
     name: Security Scan (Trivy)
     needs: build
-    runs-on:
-  workflow_dispatch:
- ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    runs-on: - uses: actions/checkout@v4
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
@@ -45,4 +35,3 @@ jobs:
           format: 'table'
           exit-code: '0'
           severity: 'CRITICAL,HIGH'
-
