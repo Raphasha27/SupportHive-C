@@ -1,34 +1,31 @@
-name: Continuous Integration
-
+name: CI
 on:
   workflow_dispatch:
   push:
-    branches: [ master ]
+    branches: [ master, main ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, main ]
 
 jobs:
-  build: 
-    name: Build & Test (C++)
+  build:
+    name: Build & Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
       - name: Install dependencies
-        run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential cmake libuv1-dev libsqlite3-dev
-
-      - name: Configure CMake
-        run: cmake -S . -B build
-
+        run: npm install
       - name: Build
-        run: cmake --build build
+        run: npm run build --if-present
+      - name: Test
+        run: npm test --if-present
 
-  security_scan: 
   security_scan:
     name: Security Scan (Trivy)
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
