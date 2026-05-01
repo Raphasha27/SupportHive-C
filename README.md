@@ -12,19 +12,19 @@ Unlike traditional web applications built in Rails or Node, SupportHive-C uses a
 ```mermaid
 graph TD
     subgraph Client Layer
-        Mobile[📱 Mobile App]
-        Web[🌐 Web Dashboard]
-        CLI[💻 CLI / curl]
+        Mobile["📱 Mobile App"]
+        Web["🌐 Web Dashboard"]
+        CLI["💻 CLI / curl"]
     end
 
     subgraph Core Engine ["Core Engine (C / libuv)"]
-        Parser[📝 http-parser]
-        JSON[🧠 cJSON Logic]
-        SLA[⏱️ SLA Engine<br>(Async Timers)]
+        Parser["📝 http-parser"]
+        JSON["🧠 cJSON Logic"]
+        SLA["⏱️ SLA Engine<br>(Async Timers)"]
     end
 
     subgraph Persistence Layer
-        DB[(🗄️ SQLite3 DB<br>Multi-Tenant)]
+        DB[("🗄️ SQLite3 DB<br>Multi-Tenant")]
     end
 
     Mobile --> Parser
