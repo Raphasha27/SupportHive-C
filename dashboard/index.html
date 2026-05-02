@@ -5,27 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#0f172a">
-    <title>SupportHive-C | Command Center</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#09090b">
+    <title>EventHive-C | Event Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --secondary: #ec4899;
             --accent: #f59e0b;
-            --bg: #0f172a;
-            --glass: rgba(30, 41, 59, 0.7);
-            --text: #f8fafc;
+            --bg: #09090b;
+            --glass: rgba(24, 24, 27, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text: #fafafa;
+            --text-muted: #a1a1aa;
+            --danger: #ef4444;
+            --success: #10b981;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            background: radial-gradient(circle at top right, #2e1065 0%, #09090b 50%, #09090b 100%);
             color: var(--text);
             min-height: 100vh;
             padding: 2rem;
@@ -36,70 +42,134 @@
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1280px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 3rem;
-            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            padding: 1.25rem 2rem;
             background: var(--glass);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
         }
 
         .logo {
             font-size: 1.5rem;
             font-weight: 800;
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .logo i {
-            color: var(--accent);
+            color: var(--text);
             font-style: normal;
+            font-weight: 400;
+            font-size: 1.2rem;
+            -webkit-text-fill-color: initial;
+        }
+
+        .tenant-selector input {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border);
+            color: var(--text);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+        
+        .tenant-selector input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
         }
 
         .stat-card {
             background: var(--glass);
-            padding: 1.5rem;
+            padding: 1.75rem;
             border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
             text-align: center;
+            backdrop-filter: blur(12px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
         }
 
         .stat-val {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary);
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-val.danger {
+            background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .stat-label {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.6;
+            letter-spacing: 1.2px;
+            color: var(--text-muted);
+            font-weight: 600;
         }
 
         .main-layout {
             display: grid;
-            grid-template-columns: 350px 1fr;
+            grid-template-columns: 380px 1fr;
             gap: 2rem;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 960px) {
             .main-layout {
                 grid-template-columns: 1fr;
             }
@@ -117,8 +187,11 @@
             background: var(--glass);
             padding: 2rem;
             border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
         }
 
         h2 {
@@ -126,53 +199,64 @@
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-weight: 600;
+            color: #fff;
         }
 
         /* Form Styling */
         .form-group {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
         }
 
         label {
             display: block;
             font-size: 0.85rem;
             margin-bottom: 0.5rem;
-            opacity: 0.8;
+            color: var(--text-muted);
+            font-weight: 500;
         }
 
         input, select {
             width: 100%;
-            padding: 0.75rem 1rem;
-            background: rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.85rem 1rem;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--glass-border);
             border-radius: 12px;
             color: white;
+            font-size: 0.95rem;
             outline: none;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
 
-        input:focus {
+        input:focus, select:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+            background: rgba(0,0,0,0.6);
         }
 
         button {
             width: 100%;
             padding: 1rem;
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
             color: white;
             border: none;
             border-radius: 12px;
             font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
-            transition: 0.3s;
-            margin-top: 1rem;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
         }
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
         }
 
         /* Tickets List */
@@ -180,6 +264,18 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            overflow-y: auto;
+            flex-grow: 1;
+            max-height: 500px;
+            padding-right: 5px;
+        }
+
+        .ticket-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .ticket-list::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
         }
 
         .ticket-item {
@@ -187,118 +283,149 @@
             justify-content: space-between;
             align-items: center;
             padding: 1.25rem;
-            background: rgba(255,255,255,0.03);
+            background: rgba(255,255,255,0.02);
             border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.3s;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .ticket-item:hover {
-            background: rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.1);
         }
 
         .info-col {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
         }
 
         .priority-badge {
-            font-size: 0.7rem;
-            padding: 2px 8px;
+            font-size: 0.65rem;
+            padding: 3px 8px;
             border-radius: 6px;
             font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .badge-P1 { background: #ef4444; color: white; }
-        .badge-P2 { background: #f59e0b; color: white; }
-        .badge-P3 { background: #10b981; color: white; }
+        .badge-P1 { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .badge-P2 { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge-P3 { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
 
         .ticket-title {
-            font-weight: 600;
-            font-size: 1.1rem;
+            font-weight: 500;
+            font-size: 1.05rem;
+            margin-left: 8px;
         }
 
         .ticket-meta {
-            font-size: 0.75rem;
-            opacity: 0.5;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
         }
 
         .status-col {
             text-align: right;
+            min-width: 120px;
         }
+
+        .status-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.1);
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+
+        .status-open { color: #34d399; background: rgba(16, 185, 129, 0.1); }
 
         .escalation-warning {
             color: #ef4444;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            margin-top: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
             animation: pulse 1.5s infinite;
+        }
+
+        .escalation-warning::before {
+            content: '⚠️';
         }
 
         @keyframes pulse {
             0% { opacity: 1; }
-            50% { opacity: 0.4; }
+            50% { opacity: 0.5; }
             100% { opacity: 1; }
         }
 
         .loading {
             text-align: center;
             padding: 3rem;
-            opacity: 0.5;
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="logo">🐝 SupportHive-C <i>Engine</i></div>
+            <div class="logo">🎪 EventHive-C <i>Command Center</i></div>
             <div class="tenant-selector">
-                <input type="text" id="tenantInput" value="apple-inc" style="width: 150px; font-size: 0.8rem;">
+                <input type="text" id="tenantInput" value="event-gala-2026" placeholder="Event ID">
             </div>
         </header>
 
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-val" id="openTickets">0</div>
-                <div class="stat-label">Open Tickets</div>
+                <div class="stat-label">Active Tasks</div>
             </div>
             <div class="stat-card">
-                <div class="stat-val" id="breachCount" style="color: #ef4444;">0</div>
-                <div class="stat-label">SLA Breaches</div>
+                <div class="stat-val danger" id="breachCount">0</div>
+                <div class="stat-label">Critical Incidents</div>
             </div>
             <div class="stat-card">
                 <div class="stat-val">C11</div>
-                <div class="stat-label">Core Runtime</div>
+                <div class="stat-label">Event Engine</div>
             </div>
             <div class="stat-card">
                 <div class="stat-val">libuv</div>
-                <div class="stat-label">Event Loop</div>
+                <div class="stat-label">Real-time Loop</div>
             </div>
         </div>
 
         <div class="main-layout">
             <div class="panel">
-                <h2>➕ New Support Ticket</h2>
+                <h2>⚡ New Event Task</h2>
                 <div class="form-group">
-                    <label>Issue Description</label>
-                    <input type="text" id="ticketTitle" placeholder="e.g. Server unreachable">
+                    <label>Task / Incident Description</label>
+                    <input type="text" id="ticketTitle" placeholder="e.g. VIP Seating Adjustment">
                 </div>
                 <div class="form-group">
-                    <label>SLA Priority</label>
+                    <label>Action Priority</label>
                     <select id="ticketPriority">
-                        <option value="P1">P1 - Critical (5s demo)</option>
-                        <option value="P2" selected>P2 - High (15s demo)</option>
+                        <option value="P1">P1 - Urgent (5s resolution demo)</option>
+                        <option value="P2" selected>P2 - High (15s resolution demo)</option>
                         <option value="P3">P3 - Standard (60s)</option>
                     </select>
                 </div>
-                <button id="createBtn">Initialize Ticket</button>
+                <button id="createBtn">Dispatch Task</button>
             </div>
 
             <div class="panel">
-                <h2>📋 Active Orchestration</h2>
+                <h2>📋 Live Orchestration Feed</h2>
                 <div class="ticket-list" id="ticketContainer">
-                    <div class="loading">Waiting for event loop...</div>
+                    <div class="loading">Establishing real-time connection...</div>
                 </div>
             </div>
         </div>
@@ -308,48 +435,84 @@
         const API_URL = `http://${window.location.hostname}:7000`;
         const getTenant = () => document.getElementById('tenantInput').value;
 
+        // Mocking API for demo purposes so it works without the C backend
+        let mockTickets = [];
+        let ticketIdCounter = 1;
+        let mockBreaches = 0;
+
         async function fetchStats() {
             try {
-                const res = await fetch(`${API_URL}/stats`, {
-                    headers: { 'X-Tenant-ID': getTenant() }
-                });
+                // Real API call
+                const res = await fetch(`${API_URL}/stats`, { headers: { 'X-Tenant-ID': getTenant() } });
                 const data = await res.json();
-                document.getElementById('openTickets').innerText = data.open_tickets || 0;
-                document.getElementById('breachCount').innerText = data.sla_breaches || 0;
-            } catch (e) { console.error("Stats fail", e); }
+                updateStats(data.open_tickets, data.sla_breaches);
+            } catch (e) { 
+                // Fallback to mock data for demo
+                const openCount = mockTickets.filter(t => t.status === 'open').length;
+                updateStats(openCount, mockBreaches);
+            }
+        }
+
+        function updateStats(open, breaches) {
+            document.getElementById('openTickets').innerText = open || 0;
+            document.getElementById('breachCount').innerText = breaches || 0;
         }
 
         async function fetchTickets() {
             try {
-                const res = await fetch(`${API_URL}/tickets`, {
-                    headers: { 'X-Tenant-ID': getTenant() }
-                });
+                // Real API call
+                const res = await fetch(`${API_URL}/tickets`, { headers: { 'X-Tenant-ID': getTenant() } });
                 const tickets = await res.json();
                 renderTickets(tickets);
-            } catch (e) { console.error("Ticket list fail", e); }
+            } catch (e) { 
+                // Fallback to mock data
+                processMockTimers();
+                renderTickets(mockTickets); 
+            }
+        }
+
+        function processMockTimers() {
+            const now = Date.now();
+            mockTickets.forEach(t => {
+                if (t.status === 'open') {
+                    const elapsed = (now - t.createdTime) / 1000;
+                    let threshold = 60;
+                    if (t.priority === 'P1') threshold = 5;
+                    if (t.priority === 'P2') threshold = 15;
+                    
+                    if (elapsed > threshold && t.escalation === 0) {
+                        t.escalation = 1;
+                        mockBreaches++;
+                    }
+                }
+            });
         }
 
         function renderTickets(tickets) {
             const container = document.getElementById('ticketContainer');
             if (tickets.length === 0) {
-                container.innerHTML = '<div class="loading">No active tickets for this tenant</div>';
+                container.innerHTML = '<div class="loading">No active tasks for this event</div>';
                 return;
             }
 
-            container.innerHTML = tickets.map(t => `
-                <div class="ticket-item">
+            // Sort so newest or escalated are at top
+            const sorted = [...tickets].sort((a, b) => b.escalation - a.escalation || b.id - a.id);
+
+            container.innerHTML = sorted.map(t => `
+                <div class="ticket-item" style="${t.escalation > 0 ? 'border-color: rgba(239,68,68,0.5); background: rgba(239,68,68,0.05);' : ''}">
                     <div class="info-col">
-                        <div>
+                        <div style="display: flex; align-items: center;">
                             <span class="priority-badge badge-${t.priority}">${t.priority}</span>
                             <span class="ticket-title">${t.title}</span>
                         </div>
-                        <div class="ticket-meta">ID: #${t.id} | Created: ${t.created_at}</div>
+                        <div class="ticket-meta">Task #${t.id} | Logged: ${t.created_at || new Date(t.createdTime).toLocaleTimeString()}</div>
                     </div>
                     <div class="status-col">
-                        <div style="font-weight: 600; font-size: 0.9rem; color: ${t.status === 'open' ? '#10b981' : '#fff'}">
+                        <div class="status-badge status-${t.status}">
                             ${t.status.toUpperCase()}
                         </div>
-                        ${t.escalation > 0 ? `<div class="escalation-warning">SLA BREACHED</div>` : `<div style="font-size: 0.7rem; opacity: 0.5">Monitoring Active</div>`}
+                        <br>
+                        ${t.escalation > 0 ? `<div class="escalation-warning">INCIDENT ESCALATED</div>` : `<div style="font-size: 0.75rem; color: var(--text-muted);">Monitoring</div>`}
                     </div>
                 </div>
             `).join('');
@@ -359,15 +522,13 @@
             const title = document.getElementById('ticketTitle').value;
             const priority = document.getElementById('ticketPriority').value;
 
-            if (!title) return alert("Description required");
+            if (!title) return alert("Task description required");
 
             try {
+                // Real API
                 const res = await fetch(`${API_URL}/tickets`, {
                     method: 'POST',
-                    headers: { 
-                        'X-Tenant-ID': getTenant(),
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'X-Tenant-ID': getTenant(), 'Content-Type': 'application/json' },
                     body: JSON.stringify({ title, priority })
                 });
                 
@@ -376,10 +537,23 @@
                     fetchTickets();
                     fetchStats();
                 }
-            } catch (e) { alert("Server connection lost"); }
+            } catch (e) { 
+                // Mock behavior
+                mockTickets.push({
+                    id: ticketIdCounter++,
+                    title,
+                    priority,
+                    status: 'open',
+                    escalation: 0,
+                    createdTime: Date.now()
+                });
+                document.getElementById('ticketTitle').value = '';
+                fetchTickets();
+                fetchStats();
+            }
         });
 
-        // Polling loop (replaces real-time for pure C simplicity)
+        // Polling loop
         setInterval(() => {
             fetchStats();
             fetchTickets();
