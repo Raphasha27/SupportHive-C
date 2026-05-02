@@ -64,10 +64,12 @@ The project includes a **portable toolchain** (CMake + GCC) inside the `./tools`
 ./build/supporthive.exe
 ```
 
-## 📱 Mobile Access (Android/iOS)
-The engine now serves its own dashboard! Review it in real-time on your mobile device:
-1. Ensure your phone is on the same Wi-Fi as your computer.
-2. Open your mobile browser.
+## 📱 Multi-Service Mobile Architecture
+The engine features a fully integrated **multi-service architecture** designed to seamlessly support native client applications deployed across both the **Android (Google Play Store)** and **Apple (iOS App Store)** ecosystems. 
+
+It also serves its own real-time dashboard, which you can review instantly on your mobile device during development:
+1. Ensure your mobile device is on the same Wi-Fi network as your server.
+2. Open your mobile browser or connected native app.
 3. Navigate to: `http://<YOUR_LOCAL_IP>:7000/dashboard`
 
 ## 📊 Visual Showcase
