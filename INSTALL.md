@@ -22,7 +22,7 @@ $env:PATH = "$PWD\tools\w64devkit\w64devkit\bin;$env:PATH"
 ## 📱 Mobile Review (Android)
 
 1. **Get your Local IP**:
-   Run `ipconfig` in PowerShell and look for your **IPv4 Address** (e.g., `192.168.18.204`).
+   Run `ipconfig` in PowerShell and look for your **IPv4 Address** (e.g., `192.168.1.100`).
 
 2. **Connect**:
    On your Android device, open Chrome and navigate to:

@@ -305,7 +305,7 @@
     </div>
 
     <script>
-        const API_URL = 'http://192.168.18.204:7000';
+        const API_URL = `http://${window.location.hostname}:7000`;
         const getTenant = () => document.getElementById('tenantInput').value;
 
         async function fetchStats() {
