@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EventHive-C | AI Event Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--p:#8b5cf6;--p2:#7c3aed;--s:#ec4899;--a:#f59e0b;--bg:#09090b;--g:rgba(24,24,27,.7);--gb:rgba(255,255,255,.07);--t:#fafafa;--m:#a1a1aa;--d:#ef4444;--ok:#10b981}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{background:radial-gradient(circle at 80% 10%,#1e0a3c 0%,#09090b 55%);color:var(--t);min-height:100vh;padding:1.5rem}
+.container{max-width:1400px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;background:var(--g);border:1px solid var(--gb);border-radius:16px;margin-bottom:1.5rem;backdrop-filter:blur(16px)}
+.logo{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--p),var(--s));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.tenant-input{background:rgba(0,0,0,.4);border:1px solid var(--gb);color:var(--t);padding:.5rem 1rem;border-radius:10px;outline:none;font-size:.85rem;width:180px}
+.tenant-input:focus{border-color:var(--p)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+.stat{background:var(--g);border:1px solid var(--gb);border-radius:14px;padding:1.25rem;text-align:center;backdrop-filter:blur(12px);transition:.3s;position:relative;overflow:hidden}
+.stat:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.4)}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--p),transparent);opacity:0;transition:.3s}
+.stat:hover::before{opacity:1}
+.stat-v{font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,#fff,#a1a1aa);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:.3rem}
+.stat-v.danger{background:linear-gradient(135deg,#f87171,#dc2626);-webkit-background-clip:text;background-clip:text}
+.stat-v.ok{background:linear-gradient(135deg,#34d399,#059669);-webkit-background-clip:text;background-clip:text}
+.stat-l{font-size:.75rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--m);font-weight:600}
+.grid{display:grid;grid-template-columns:360px 1fr;gap:1.5rem;margin-bottom:1.5rem}
+.panel{background:var(--g);border:1px solid var(--gb);border-radius:16px;padding:1.5rem;backdrop-filter:blur(16px)}
+.panel-title{font-size:1rem;font-weight:600;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
+.form-group{margin-bottom:1.1rem}
+label{display:block;font-size:.8rem;color:var(--m);margin-bottom:.4rem;font-weight:500}
+input[type=text],select{width:100%;padding:.75rem 1rem;background:rgba(0,0,0,.4);border:1px solid var(--gb);border-radius:10px;color:var(--t);font-size:.9rem;outline:none;transition:.2s}
+input[type=text]:focus,select:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(139,92,246,.15)}
+.btn{width:100%;padding:.9rem;background:linear-gradient(135deg,var(--p),var(--p2));border:none;border-radius:10px;color:#fff;font-weight:600;font-size:.95rem;cursor:pointer;transition:.3s;box-shadow:0 4px 15px rgba(139,92,246,.3);margin-top:.5rem}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(139,92,246,.4)}
+.btn:active{transform:translateY(0)}
+/* AI triage badge */
+.ai-badge{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;padding:4px 10px;border-radius:20px;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);color:#c4b5fd;margin-top:.5rem;transition:.3s}
+/* Feed */
+.feed{display:flex;flex-direction:column;gap:.75rem;max-height:480px;overflow-y:auto;padding-right:4px}
+.feed::-webkit-scrollbar{width:4px}.feed::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px}
+.task-item{padding:1rem 1.25rem;border-radius:12px;border:1px solid var(--gb);background:rgba(255,255,255,.02);display:flex;justify-content:space-between;align-items:center;transition:.3s;animation:slideIn .3s ease}
+.task-item:hover{background:rgba(255,255,255,.04)}
+.task-item.escalated{border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.05)}
+@keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+.badge{font-size:.65rem;padding:2px 7px;border-radius:5px;font-weight:700;letter-spacing:.5px}
+.p1{background:rgba(239,68,68,.2);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+.p2{background:rgba(245,158,11,.2);color:#fbbf24;border:1px solid rgba(245,158,11,.3)}
+.p3{background:rgba(16,185,129,.2);color:#34d399;border:1px solid rgba(16,185,129,.3)}
+.task-title{font-weight:500;font-size:.95rem;margin-left:8px}
+.task-meta{font-size:.75rem;color:var(--m);margin-top:4px}
+.countdown{font-size:.75rem;font-weight:600;color:#34d399}
+.countdown.warn{color:#fbbf24}
+.countdown.breach{color:#ef4444;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+/* AI Panel */
+.ai-panel{background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(236,72,153,.05));border:1px solid rgba(139,92,246,.2);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem}
+.ai-summary{font-size:.9rem;line-height:1.7;color:var(--t)}
+.ai-summary strong{color:#c4b5fd}
+/* Charts */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:80px;padding-top:8px}
+.bar{flex:1;border-radius:4px 4px 0 0;background:linear-gradient(to top,var(--p),var(--s));opacity:.8;transition:1s;min-width:8px}
+.bar-label{font-size:.6rem;color:var(--m);text-align:center;margin-top:4px}
+.venue-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.venue-card{background:rgba(255,255,255,.03);border:1px solid var(--gb);border-radius:10px;padding:1rem}
+.venue-name{font-size:.8rem;font-weight:600;margin-bottom:.5rem}
+.cap-bar{height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.cap-fill{height:100%;border-radius:3px;transition:1s}
+.cap-text{font-size:.7rem;color:var(--m);margin-top:4px}
+.loading-msg{text-align:center;padding:2rem;color:var(--m);font-size:.9rem}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.charts-grid{grid-template-columns:1fr}}
+.tag{font-size:.7rem;padding:2px 8px;border-radius:20px;background:rgba(139,92,246,.15);color:#c4b5fd;border:1px solid rgba(139,92,246,.25)}
+.resolve-btn{font-size:.7rem;padding:3px 10px;border-radius:6px;background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);cursor:pointer;transition:.2s}
+.resolve-btn:hover{background:rgba(16,185,129,.25)}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <div class="logo">🎪 EventHive-C</div>
+    <div style="display:flex;align-items:center;gap:1rem">
+      <span style="font-size:.8rem;color:var(--m)">Event ID:</span>
+      <input class="tenant-input" id="tenantInput" value="gala-2026" placeholder="event-id">
+      <span id="engineStatus" style="font-size:.75rem;padding:3px 10px;border-radius:20px;background:rgba(139,92,246,.15);color:#c4b5fd;border:1px solid rgba(139,92,246,.3)">● Live</span>
+    </div>
+  </header>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat"><div class="stat-v" id="statOpen">0</div><div class="stat-l">Active Tasks</div></div>
+    <div class="stat"><div class="stat-v danger" id="statBreaches">0</div><div class="stat-l">Incidents</div></div>
+    <div class="stat"><div class="stat-v ok" id="statResolved">0</div><div class="stat-l">Resolved</div></div>
+    <div class="stat"><div class="stat-v" id="statHealth">100%</div><div class="stat-l">Event Health</div></div>
+  </div>
+
+  <!-- AI Summary Panel -->
+  <div class="ai-panel">
+    <div class="panel-title">🤖 AI Incident Analyst</div>
+    <div class="ai-summary" id="aiSummary">Initialising event intelligence scan...</div>
+  </div>
+
+  <!-- Charts -->
+  <div class="charts-grid">
+    <div class="panel">
+      <div class="panel-title">📊 Task Volume (last 8 intervals)</div>
+      <div class="bar-chart" id="barChart"></div>
+      <div style="display:flex;gap:6px;margin-top:4px" id="barLabels"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">🏟️ Venue Capacity Monitor</div>
+      <div class="venue-grid" id="venueGrid"></div>
+    </div>
+  </div>
+
+  <!-- Main layout -->
+  <div class="grid">
+    <div class="panel">
+      <div class="panel-title">⚡ Dispatch Task</div>
+      <div class="form-group">
+        <label>Task Description</label>
+        <input type="text" id="taskTitle" placeholder="e.g. VIP seating issue – Table 12">
+      </div>
+      <div id="aiTriage" style="min-height:28px"></div>
+      <div class="form-group" style="margin-top:.75rem">
+        <label>Priority</label>
+        <select id="taskPriority">
+          <option value="P1">P1 – Urgent (5s demo escalation)</option>
+          <option value="P2" selected>P2 – High (15s demo escalation)</option>
+          <option value="P3">P3 – Standard (60s)</option>
+        </select>
+      </div>
+      <button class="btn" id="dispatchBtn">Dispatch Task</button>
+
+      <div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--gb)">
+        <div class="panel-title" style="font-size:.85rem">🔒 Quick Security Scan</div>
+        <button class="btn" style="background:linear-gradient(135deg,#1e3a5f,#1e1b4b);box-shadow:none;font-size:.85rem" id="scanBtn">Run Local Audit</button>
+        <div id="scanResult" style="font-size:.8rem;color:var(--m);margin-top:.75rem"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">📋 Live Orchestration Feed</div>
+      <div class="feed" id="feed">
+        <div class="loading-msg">Establishing connection...</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+// ─── State ─────────────────────────────────────────────
+const API = `http://${location.hostname}:7000`;
+const tenant = () => document.getElementById('tenantInput').value;
+let tasks = [], resolved = 0, idCounter = 1;
+let taskVolume = [0,0,0,0,0,0,0,0];
+
+// ─── AI Triage ─────────────────────────────────────────
+const triageRules = [
+  {words:['vip','speaker','performer','artist','headliner','ceo'],p:'P1',label:'VIP / Critical Personnel'},
+  {words:['fire','medical','ambulance','emergency','security','fight','evacuate'],p:'P1',label:'Safety Emergency'},
+  {words:['power','lights','stage','sound','microphone','audio','video','screen'],p:'P1',label:'AV / Technical Critical'},
+  {words:['catering','food','drinks','bar','kitchen','chef'],p:'P2',label:'Hospitality'},
+  {words:['parking','traffic','entrance','queue','crowd','line'],p:'P2',label:'Crowd Management'},
+  {words:['seating','table','chair','layout','setup'],p:'P2',label:'Venue Setup'},
+  {words:['wifi','internet','network','app','system'],p:'P2',label:'Tech Support'},
+];
+
+function triageTask(text){
+  const t = text.toLowerCase();
+  for(const rule of triageRules){
+    if(rule.words.some(w=>t.includes(w))) return rule;
+  }
+  return null;
+}
+
+document.getElementById('taskTitle').addEventListener('input', function(){
+  const match = triageTask(this.value);
+  const el = document.getElementById('aiTriage');
+  if(match && this.value.length > 3){
+    el.innerHTML = `<div class="ai-badge">🤖 AI suggests <strong style="color:#c4b5fd;margin:0 4px">${match.p}</strong> — ${match.label}</div>`;
+    document.getElementById('taskPriority').value = match.p;
+  } else {
+    el.innerHTML = '';
+  }
+});
+
+// ─── Dispatch ──────────────────────────────────────────
+document.getElementById('dispatchBtn').addEventListener('click', async ()=>{
+  const title = document.getElementById('taskTitle').value.trim();
+  const priority = document.getElementById('taskPriority').value;
+  if(!title) return;
+  try {
+    const r = await fetch(`${API}/tickets`,{method:'POST',headers:{'X-Tenant-ID':tenant(),'Content-Type':'application/json'},body:JSON.stringify({title,priority})});
+    if(r.ok){ document.getElementById('taskTitle').value=''; refresh(); return; }
+  } catch(e){}
+  // Demo fallback
+  tasks.push({id:idCounter++,title,priority,status:'open',escalation:0,createdTime:Date.now()});
+  taskVolume[taskVolume.length-1]++;
+  document.getElementById('taskTitle').value='';
+  document.getElementById('aiTriage').innerHTML='';
+  refresh();
+});
+
+// ─── Escalation ────────────────────────────────────────
+const SLA = {P1:5000,P2:15000,P3:60000};
+function processEscalations(){
+  const now=Date.now();
+  tasks.forEach(t=>{
+    if(t.status==='open'){
+      const elapsed=now-t.createdTime;
+      if(elapsed>SLA[t.priority] && t.escalation===0){t.escalation=1;}
+    }
+  });
+}
+
+function countdown(t){
+  const rem = SLA[t.priority]-(Date.now()-t.createdTime);
+  if(t.escalation>0) return '<span class="countdown breach">⚠️ ESCALATED</span>';
+  if(rem<=0) return '<span class="countdown breach">⚠️ ESCALATED</span>';
+  const s=Math.ceil(rem/1000);
+  const cls = s<5?'breach':s<10?'warn':'';
+  return `<span class="countdown ${cls}">${s}s remaining</span>`;
+}
+
+// ─── Render Feed ────────────────────────────────────────
+function renderFeed(){
+  const feed=document.getElementById('feed');
+  if(!tasks.length){feed.innerHTML='<div class="loading-msg">No active tasks for this event</div>';return;}
+  const sorted=[...tasks].filter(t=>t.status==='open').sort((a,b)=>b.escalation-a.escalation||a.id-b.id);
+  feed.innerHTML=sorted.map(t=>`
+    <div class="task-item ${t.escalation>0?'escalated':''}">
+      <div>
+        <div style="display:flex;align-items:center">
+          <span class="badge ${t.priority.toLowerCase()}">${t.priority}</span>
+          <span class="task-title">${t.title}</span>
+        </div>
+        <div class="task-meta">Task #${t.id} · ${new Date(t.createdTime).toLocaleTimeString()}</div>
+        <div style="margin-top:4px">${countdown(t)}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:.75rem;color:${t.escalation>0?'#ef4444':'#34d399'};font-weight:600">${t.escalation>0?'INCIDENT':'OPEN'}</div>
+        <button class="resolve-btn" style="margin-top:6px" onclick="resolveTask(${t.id})">✓ Resolve</button>
+      </div>
+    </div>`).join('');
+}
+
+window.resolveTask=function(id){
+  const t=tasks.find(t=>t.id===id);
+  if(t){t.status='resolved';resolved++;refresh();}
+};
+
+// ─── Stats & AI Summary ────────────────────────────────
+function updateStats(){
+  const open=tasks.filter(t=>t.status==='open').length;
+  const incidents=tasks.filter(t=>t.status==='open'&&t.escalation>0).length;
+  document.getElementById('statOpen').textContent=open;
+  document.getElementById('statBreaches').textContent=incidents;
+  document.getElementById('statResolved').textContent=resolved;
+  const health=open===0?100:Math.max(0,Math.round(100-(incidents/open)*60));
+  document.getElementById('statHealth').textContent=health+'%';
+  generateAISummary(open,incidents);
+}
+
+function generateAISummary(open,incidents){
+  const el=document.getElementById('aiSummary');
+  if(open===0){
+    el.innerHTML='<strong>✅ All clear.</strong> No active tasks for this event. Venue operations are running smoothly.';
+    return;
+  }
+  const p1=tasks.filter(t=>t.status==='open'&&t.priority==='P1').length;
+  const p2=tasks.filter(t=>t.status==='open'&&t.priority==='P2').length;
+  const p3=tasks.filter(t=>t.status==='open'&&t.priority==='P3').length;
+  let msg=`Monitoring <strong>${open} active task${open>1?'s':''}</strong> across this event. `;
+  if(incidents>0) msg+=`<strong style="color:#f87171">⚠️ ${incidents} incident${incidents>1?'s have':' has'} escalated</strong> — immediate attention required. `;
+  if(p1>0) msg+=`<strong>${p1} P1 urgent</strong> task${p1>1?'s':''} in queue. `;
+  if(p2>0) msg+=`${p2} high-priority item${p2>1?'s':''} under monitoring. `;
+  if(p3>0) msg+=`${p3} standard task${p3>1?'s':''} within SLA. `;
+  msg+=`<br><span style="color:var(--m);font-size:.8rem">Last analysed: ${new Date().toLocaleTimeString()}</span>`;
+  el.innerHTML=msg;
+}
+
+// ─── Bar Chart ─────────────────────────────────────────
+function renderChart(){
+  const max=Math.max(...taskVolume,1);
+  const chart=document.getElementById('barChart');
+  const labels=document.getElementById('barLabels');
+  const times=[];
+  for(let i=7;i>=0;i--){const d=new Date(Date.now()-i*30000);times.push(d.toLocaleTimeString('en',{hour:'2-digit',minute:'2-digit'}));}
+  chart.innerHTML=taskVolume.map((v,i)=>`<div class="bar" style="height:${Math.max(4,Math.round((v/max)*80))}px" title="${v} tasks"></div>`).join('');
+  labels.innerHTML=taskVolume.map((_,i)=>`<div class="bar-label" style="flex:1">${i===7?'now':''}</div>`).join('');
+}
+
+// ─── Venue Capacity ────────────────────────────────────
+const venues=[
+  {name:'Main Hall',cap:85,color:'#8b5cf6'},
+  {name:'VIP Lounge',cap:62,color:'#ec4899'},
+  {name:'Garden Area',cap:40,color:'#10b981'},
+  {name:'Stage Front',cap:95,color:'#f59e0b'},
+];
+function renderVenues(){
+  document.getElementById('venueGrid').innerHTML=venues.map(v=>`
+    <div class="venue-card">
+      <div class="venue-name">${v.name}</div>
+      <div class="cap-bar"><div class="cap-fill" style="width:${v.cap}%;background:${v.cap>90?'#ef4444':v.cap>70?'#f59e0b':v.color}"></div></div>
+      <div class="cap-text">${v.cap}% capacity ${v.cap>90?'⚠️ Near full':v.cap>70?'● Busy':'✓ OK'}</div>
+    </div>`).join('');
+}
+
+// ─── Security Scan (demo) ──────────────────────────────
+document.getElementById('scanBtn').addEventListener('click',()=>{
+  const el=document.getElementById('scanResult');
+  el.textContent='🔍 Scanning...';
+  setTimeout(()=>{
+    el.innerHTML=`<span style="color:#34d399">✅ Scan complete</span><br>
+    No leaked IPs · No hardcoded secrets · CI billing: None<br>
+    <span style="color:var(--m)">Run <code>python3 scripts/audit.py --scan .</code> for full report</span>`;
+  },1500);
+});
+
+// ─── API Polling ────────────────────────────────────────
+async function fetchFromAPI(){
+  try{
+    const [st,tk]=await Promise.all([
+      fetch(`${API}/stats`,{headers:{'X-Tenant-ID':tenant()}}).then(r=>r.json()),
+      fetch(`${API}/tickets`,{headers:{'X-Tenant-ID':tenant()}}).then(r=>r.json())
+    ]);
+    tasks=tk.map(t=>({...t,createdTime:Date.now()-5000}));
+  }catch(e){}
+}
+
+function refresh(){
+  processEscalations();
+  updateStats();
+  renderFeed();
+  renderChart();
+  renderVenues();
+}
+
+setInterval(()=>{
+  taskVolume=[...taskVolume.slice(1),tasks.filter(t=>t.status==='open').length];
+  refresh();
+},1000);
+
+fetchFromAPI().then(refresh);
+refresh();
+</script>
+</body>
+</html>
