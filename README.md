@@ -109,7 +109,11 @@ The dashboard UI (`dashboard/index.html`) is a fully self-contained, zero-depend
 - **Task Dispatch form** — type a task, choose priority, hit Dispatch
 - **Live Orchestration Feed** — scrollable task list with real-time status
 
-> **🎥 Demo:** A short video walkthrough showing task dispatch and automatic escalation is being added to this README shortly.
+### 🎬 Interactive Demo
+
+![EventHive-C Demo — Task Dispatch & Escalation](assets/demo.svg)
+
+*Watch: A P1 task is dispatched → appears in the live feed → automatically escalates to **⚠️ INCIDENT ESCALATED** within 5 seconds. No server required — the dashboard works in offline demo mode out of the box.*
 
 ---
 

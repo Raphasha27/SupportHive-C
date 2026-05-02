@@ -1,0 +1,218 @@
+<svg viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Inter, sans-serif">
+  <defs>
+    <style>
+      .bg { fill: #09090b; }
+      .panel { fill: rgba(24,24,27,0.9); rx: 16; }
+      .label { fill: #a1a1aa; font-size: 11px; }
+      .val-white { fill: #fafafa; font-weight: 800; }
+      .val-red { fill: #f87171; font-weight: 800; }
+      .val-purple { fill: #c4b5fd; font-weight: 800; }
+      .badge-p1 { fill: rgba(239,68,68,0.2); }
+      .badge-p1-text { fill: #f87171; font-size: 10px; font-weight: 700; }
+      .badge-p2 { fill: rgba(245,158,11,0.2); }
+      .badge-p2-text { fill: #fbbf24; font-size: 10px; font-weight: 700; }
+      .status-open { fill: #34d399; font-size: 10px; font-weight: 600; }
+      .monitoring { fill: #71717a; font-size: 10px; }
+      .escalation { fill: #ef4444; font-size: 10px; font-weight: 700; }
+      .title-gradient { fill: url(#grad1); font-size: 14px; font-weight: 800; }
+      .section-title { fill: #fafafa; font-size: 12px; font-weight: 600; }
+      .input-bg { fill: rgba(0,0,0,0.4); }
+      .btn-bg { fill: #7c3aed; }
+      .btn-text { fill: white; font-size: 11px; font-weight: 600; }
+      .cursor { fill: #c4b5fd; }
+      .header-bg { fill: rgba(24,24,27,0.85); }
+      .stat-bg { fill: rgba(24,24,27,0.8); }
+      .ticket-bg { fill: rgba(255,255,255,0.03); }
+      .ticket-escalated { fill: rgba(239,68,68,0.07); }
+      .loading { fill: #52525b; font-size: 11px; }
+    </style>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8b5cf6"/>
+      <stop offset="100%" style="stop-color:#ec4899"/>
+    </linearGradient>
+    <clipPath id="clip-dashboard">
+      <rect x="0" y="0" width="900" height="540"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="540" class="bg"/>
+  <!-- Purple radial glow top-right -->
+  <radialGradient id="glow" cx="85%" cy="5%" r="40%">
+    <stop offset="0%" style="stop-color:#2e1065;stop-opacity:0.6"/>
+    <stop offset="100%" style="stop-color:#09090b;stop-opacity:0"/>
+  </radialGradient>
+  <rect width="900" height="540" fill="url(#glow)"/>
+
+  <!-- Header bar -->
+  <rect x="20" y="16" width="860" height="52" rx="14" class="header-bg" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text x="42" y="47" class="title-gradient">🎪 EventHive-C</text>
+  <text x="136" y="47" fill="#a1a1aa" font-size="13">Command Center</text>
+  <!-- Event ID input mock -->
+  <rect x="720" y="27" width="140" height="28" rx="8" class="input-bg" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="730" y="44" fill="#71717a" font-size="11">event-gala-2026</text>
+
+  <!-- Stat cards -->
+  <!-- Card 1: Active Tasks -->
+  <rect x="20" y="84" width="200" height="76" rx="14" class="stat-bg" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <text x="120" y="133" text-anchor="middle" class="val-white" font-size="32">
+    <animate attributeName="textContent" values="0;0;0;1;1;1;2;2;2" dur="9s" repeatCount="indefinite"/>0
+  </text>
+  <!-- Animated task count -->
+  <text x="120" y="133" text-anchor="middle" fill="#fafafa" font-size="32" font-weight="800">
+    <set attributeName="display" to="inline"/>
+    <animate attributeName="textContent" dur="9s" repeatCount="indefinite"
+      values="0;0;0;0;0;1;1;1;2;2"/>
+  </text>
+  <text x="120" y="150" text-anchor="middle" class="label" font-size="10" letter-spacing="1">ACTIVE TASKS</text>
+
+  <!-- Card 2: Critical Incidents -->
+  <rect x="232" y="84" width="200" height="76" rx="14" class="stat-bg" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <text x="332" y="133" text-anchor="middle" fill="#f87171" font-size="32" font-weight="800">
+    <animate attributeName="textContent" dur="9s" repeatCount="indefinite"
+      values="0;0;0;0;0;0;0;1;1;1"/>
+  </text>
+  <text x="332" y="150" text-anchor="middle" class="label" font-size="10" letter-spacing="1">CRITICAL INCIDENTS</text>
+
+  <!-- Card 3: Engine -->
+  <rect x="444" y="84" width="200" height="76" rx="14" class="stat-bg" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <text x="544" y="133" text-anchor="middle" class="val-purple" font-size="28">C11</text>
+  <text x="544" y="150" text-anchor="middle" class="label" font-size="10" letter-spacing="1">EVENT ENGINE</text>
+
+  <!-- Card 4: Real-time -->
+  <rect x="656" y="84" width="224" height="76" rx="14" class="stat-bg" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <text x="768" y="133" text-anchor="middle" class="val-purple" font-size="28">libuv</text>
+  <text x="768" y="150" text-anchor="middle" class="label" font-size="10" letter-spacing="1">REAL-TIME LOOP</text>
+
+  <!-- ═══ LEFT PANEL: Dispatch Form ═══ -->
+  <rect x="20" y="176" width="290" height="344" rx="16" class="stat-bg" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text x="40" y="204" class="section-title">⚡ New Event Task</text>
+
+  <!-- Input field label -->
+  <text x="40" y="228" class="label">Task / Incident Description</text>
+  <!-- Input box -->
+  <rect x="40" y="234" width="250" height="34" rx="10" class="input-bg" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+
+  <!-- Typing animation: "VIP Seating Issue" -->
+  <text x="52" y="256" fill="#fafafa" font-size="12">
+    <animate attributeName="textContent" dur="9s" repeatCount="indefinite"
+      values=";V;VI;VIP;VIP ;VIP S;VIP Se;VIP Sea;VIP Seat;VIP Seati;VIP Seatin;VIP Seating;VIP Seating ;VIP Seating I;VIP Seating Is;VIP Seating Iss;VIP Seating Issu;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;VIP Seating Issue;"/>
+  </text>
+  <!-- Blinking cursor -->
+  <rect x="52" y="243" width="2" height="16" class="cursor">
+    <animate attributeName="opacity" values="1;0;1" dur="0.8s" repeatCount="indefinite"/>
+    <animate attributeName="x" dur="9s" repeatCount="indefinite"
+      values="52;52;58;64;70;76;52;52;52;58;64;70;76;82;88;94;100;106;112;112;112;112;112;112;112;112;112;112;112;112;112;112;112;112;112;112;112;112;112;112;112;52"/>
+  </rect>
+
+  <!-- Priority label -->
+  <text x="40" y="290" class="label">Action Priority</text>
+  <rect x="40" y="296" width="250" height="34" rx="10" class="input-bg" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="52" y="318" fill="#fafafa" font-size="12">P1 - Urgent (5s resolution demo)</text>
+  <text x="278" y="318" fill="#71717a" font-size="14">▾</text>
+
+  <!-- Dispatch Button -->
+  <rect x="40" y="346" width="250" height="38" rx="10" class="btn-bg">
+    <animate attributeName="opacity" values="1;1;1;1;0.7;1;1;1;1" dur="9s" repeatCount="indefinite"/>
+  </rect>
+  <text x="165" y="370" text-anchor="middle" class="btn-text">Dispatch Task</text>
+
+  <!-- Step Labels -->
+  <text x="40" y="410" fill="#6d28d9" font-size="10" font-weight="600">
+    <animate attributeName="textContent" dur="9s" repeatCount="indefinite"
+      values="Step 1: Type task description...;Step 1: Type task description...;Step 1: Type task description...;Step 2: Select priority...;Step 3: Click Dispatch!;Step 3: Click Dispatch!;Step 4: Task appears in feed →;Step 5: P1 escalates in 5s...;⚠️ INCIDENT ESCALATED!;⚠️ INCIDENT ESCALATED!"/>
+  </text>
+
+  <!-- ═══ RIGHT PANEL: Live Feed ═══ -->
+  <rect x="326" y="176" width="554" height="344" rx="16" class="stat-bg" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text x="346" y="204" class="section-title">📋 Live Orchestration Feed</text>
+
+  <!-- Loading state -->
+  <text x="603" y="350" text-anchor="middle" class="loading">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite"
+      values="1;1;1;1;0;0;0;0;0;0"/>
+    Establishing real-time connection...
+  </text>
+
+  <!-- ── Ticket 1: VIP Seating Issue (P1) ── -->
+  <!-- ticket bg — normal then escalated -->
+  <rect x="336" y="218" width="534" height="64" rx="12" stroke-width="1">
+    <animate attributeName="fill" dur="9s" repeatCount="indefinite"
+      values="rgba(255,255,255,0);rgba(255,255,255,0);rgba(255,255,255,0);rgba(255,255,255,0);rgba(255,255,255,0.02);rgba(255,255,255,0.02);rgba(255,255,255,0.02);rgba(239,68,68,0.07);rgba(239,68,68,0.07);rgba(239,68,68,0.07)"/>
+    <animate attributeName="stroke" dur="9s" repeatCount="indefinite"
+      values="transparent;transparent;transparent;transparent;rgba(255,255,255,0.06);rgba(255,255,255,0.06);rgba(255,255,255,0.06);rgba(239,68,68,0.5);rgba(239,68,68,0.5);rgba(239,68,68,0.5)"/>
+  </rect>
+  <!-- P1 badge -->
+  <rect x="348" y="228" width="24" height="14" rx="4">
+    <animate attributeName="fill" dur="9s" repeatCount="indefinite"
+      values="transparent;transparent;transparent;transparent;rgba(239,68,68,0.2);rgba(239,68,68,0.2);rgba(239,68,68,0.2);rgba(239,68,68,0.2);rgba(239,68,68,0.2);rgba(239,68,68,0.2)"/>
+  </rect>
+  <text x="360" y="239" text-anchor="middle" class="badge-p1-text">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;0;0;1;1;1;1;1;1"/>
+    P1
+  </text>
+  <!-- Ticket title -->
+  <text x="378" y="240" fill="#fafafa" font-size="12" font-weight="500">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;0;0;1;1;1;1;1;1"/>
+    VIP Seating Issue
+  </text>
+  <!-- Ticket meta -->
+  <text x="348" y="258" fill="#71717a" font-size="10">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;0;0;1;1;1;1;1;1"/>
+    Task #1 | Logged: just now
+  </text>
+  <!-- Status - OPEN -->
+  <text x="830" y="240" text-anchor="end" class="status-open" font-size="10">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;0;0;1;1;1;0;0;0"/>
+    OPEN
+  </text>
+  <!-- Monitoring text -->
+  <text x="830" y="255" text-anchor="end" class="monitoring">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;0;0;1;1;1;0;0;0"/>
+    Monitoring
+  </text>
+  <!-- INCIDENT ESCALATED badge -->
+  <text x="830" y="240" text-anchor="end" class="escalation">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;0;0;0;0;0;1;1;1"/>
+    <animate attributeName="display" dur="9s" repeatCount="indefinite" values="none;none;none;none;none;none;none;inline;inline;inline"/>
+    ⚠️ INCIDENT ESCALATED
+  </text>
+  <!-- Escalation pulse ring -->
+  <circle cx="820" cy="264" r="6" fill="none" stroke="#ef4444" stroke-width="1.5">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;0;0;0;0;0;1;1;1"/>
+    <animate attributeName="r" values="4;8;4" dur="1.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0;1" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- ── Ticket 2: Catering Delay (P2) ── -->
+  <rect x="336" y="294" width="534" height="64" rx="12" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="1">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;0;0;0;0;1;1;1;1"/>
+  </rect>
+  <rect x="348" y="304" width="24" height="14" rx="4" fill="rgba(245,158,11,0.2)">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;0;0;0;0;1;1;1;1"/>
+  </rect>
+  <text x="360" y="315" text-anchor="middle" class="badge-p2-text">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;0;0;0;0;1;1;1;1"/>
+    P2
+  </text>
+  <text x="378" y="316" fill="#fafafa" font-size="12" font-weight="500">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;0;0;0;0;1;1;1;1"/>
+    Catering Delay — Hall B
+  </text>
+  <text x="348" y="334" fill="#71717a" font-size="10">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;0;0;0;0;1;1;1;1"/>
+    Task #2 | Logged: just now
+  </text>
+  <text x="830" y="316" text-anchor="end" class="status-open" font-size="10">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;0;0;0;0;1;1;1;1"/>
+    OPEN
+  </text>
+  <text x="830" y="331" text-anchor="end" class="monitoring">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;0;0;0;0;1;1;1;1"/>
+    Monitoring
+  </text>
+
+  <!-- Divider line + footer label -->
+  <line x1="20" y1="528" x2="880" y2="528" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+  <text x="450" y="538" text-anchor="middle" fill="#3f3f46" font-size="9" letter-spacing="0.5">EventHive-C · Real-time Event Command Center · github.com/Raphasha27/SupportHive-C</text>
+</svg>
