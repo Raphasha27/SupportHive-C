@@ -19,14 +19,18 @@ $env:PATH = "$PWD\tools\w64devkit\w64devkit\bin;$env:PATH"
 ./build/supporthive.exe
 ```
 
-## 📱 Mobile Review (Android)
+## 📱 Mobile Review (Android / iOS)
 
-1. **Get your Local IP**:
-   Run `ipconfig` in PowerShell and look for your **IPv4 Address** (e.g., `192.168.1.100`).
+1. **Get your Local IP** (visible only to you — never share or commit this value):
+   - **Windows**: Run `ipconfig` in PowerShell → look for **IPv4 Address** under your active Wi-Fi adapter.
+   - **Mac/Linux**: Run `ifconfig | grep "inet "` in Terminal.
 
-2. **Connect**:
-   On your Android device, open Chrome and navigate to:
-   `http://YOUR_IP:7000/dashboard`
+2. **Connect on your mobile device**:
+   Open your browser and navigate to:
+   ```
+   http://<YOUR_LOCAL_IP>:7000/dashboard
+   ```
+   > ⚠️ Your local IP is private network data. Never hardcode it in any file that gets committed to a repository.
 
 ## 🧪 Quick Test
 

@@ -61,3 +61,34 @@ ipch/
 
 # Specific Logs
 full_build_log*.txt
+
+# ─── Privacy & Secret Protection ────────────────────────────────────────────
+# Environment files — may contain IPs, tokens, credentials
+.env
+.env.*
+.env.local
+.env.*.local
+*.env
+
+# Local network config (never commit device-specific IPs or keys)
+local.config.*
+local_settings.*
+config.local.*
+network.conf
+device.conf
+
+# SSH / TLS keys
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+*.pub
+
+# Credential files
+*.credentials
+auth.json
+secrets.json
+secrets.yml
+secrets.yaml
