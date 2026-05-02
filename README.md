@@ -3,6 +3,8 @@
 > **High-performance, real-time event operations engine built in C.**  
 > Designed for event planners, venue hosts, and coordinators who need instant task orchestration and escalation monitoring without the overhead.
 
+**🌐 Live Demo:** [raphasha27.github.io/SupportHive-C](https://raphasha27.github.io/SupportHive-C) ← deployed free on GitHub Pages
+
 ---
 
 ## 🎯 Purpose
