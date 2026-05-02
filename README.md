@@ -72,9 +72,11 @@ It also serves its own real-time dashboard, which you can review instantly on yo
 2. Open your mobile browser or connected native app.
 3. Navigate to: `http://<YOUR_LOCAL_IP>:7000/dashboard`
 
-## 📊 Visual Showcase
-![SupportHive Dashboard](assets/dashboard_main.png)
-*Figure 1: The Command Center showing active ticket orchestration and real-time SLA breach monitoring.*
+## 📊 Visual Showcase & Demo
+![EventHive-C Command Center](assets/dashboard_main.png)
+*Figure 1: The Event Command Center showing active task orchestration and real-time incident monitoring.*
+
+> **🎥 Demo Video Comming Soon:** A short video walkthrough demonstrating how to dispatch tasks and monitor escalations in real-time is being recorded and will be embedded here.
 
 ## 🧪 API Usage
 
