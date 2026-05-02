@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SupportHive-C ðŸ | Kirov Dynamics Showcase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: rgba(22, 27, 34, 0.8);
+            --accent: #3fb950;
+            --text: #c9d1d9;
+            --header: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .gradient-bg {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 50% -20%, #1a2333 0%, #0d1117 80%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--accent);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            color: var(--header);
+            margin-bottom: 20px;
+        }
+
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--header);
+        }
+
+        .card {
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            color: var(--header);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .tech-item {
+            padding: 20px;
+            background: var(--glass);
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 16px 32px;
+            background: var(--accent);
+            color: #000;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(63, 185, 80, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg"></div>
+    <div class="container">
+        <header>
+            <span class="brand">Kirov Dynamics Technology</span>
+            <h1>SupportHive-C ðŸ</h1>
+            <div class="badge-container">
+                <div class="badge">🚀 Mission Critical</div>
+                <div class="badge">🛡️ Security Audited</div>
+                <div class="badge">⚡ High Performance</div>
+            </div>
+            <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto;">**High-Performance Multi-Tenant Support & SLA Engine built in C.**</p>
+        </header>
+
+        <div class="card">
+            <h2>✨ Key Capabilities</h2>
+            <ul>
+                <li>High-performance computational logic</li><li>Automated security enforcement</li><li>Enterprise-grade scalability</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🛠️ Technical Architecture</h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <div style="font-weight: 700; color: var(--header); margin-bottom: 5px;">Stack</div>
+                    <div>Kirov Core Utility</div>
+                </div>
+                <div class="tech-item">
+                    <div style="font-weight: 700; color: var(--header); margin-bottom: 5px;">Integrity</div>
+                    <div>AES-256 / SHA-256</div>
+                </div>
+                <div class="tech-item">
+                    <div style="font-weight: 700; color: var(--header); margin-bottom: 5px;">Deployment</div>
+                    <div>Edge-Native</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="https://github.com/Raphasha27" class="cta-button">View Repository Artifacts</a>
+        </div>
+
+        <footer>
+            &copy; 2026 Kirov Dynamics Technology. All Rights Reserved.<br>
+            Level 5 Intelligence Clearance Active.
+        </footer>
+    </div>
+</body>
+</html>
