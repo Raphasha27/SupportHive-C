@@ -6,6 +6,16 @@ Only the latest version of this project is currently supported.
 
 ## Reporting a Vulnerability
 
-We take security seriously. If you find a security vulnerability, please do not open a public issue. Instead, please report it via the GitHub Security tab or email the maintainer directly.
+Please report security issues privately instead of opening a public issue.
 
-We will acknowledge your report within 48 hours and provide a timeline for a fix if necessary.
+- Email: `raphashakokets69@gmail.com`
+- Preferred channel: GitHub Security Advisories when available
+
+Helpful report details:
+
+- affected endpoint or component
+- reproduction steps
+- impact level
+- logs, proof of concept, or screenshots if available
+
+We will acknowledge your report within 48 hours and prioritize remediation based on severity and exploitability.
