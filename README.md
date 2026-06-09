@@ -27,11 +27,11 @@ Portfolio → https://raphasha27.github.io/raphasha-dev-portfolio
     ↓
 Case Study → (coming soon)
     ↓
-Live Demo → (check the badges above)
+Live Demo → https://github.com/Raphasha27/SupportHive-C
     ↓
 Contact → https://github.com/Raphasha27
 ```
 
-Part of the [Kirov Dynamics Technology](https://github.com/Raphasha27) ecosystem.
+Part of the [Kirov Dynamics](https://github.com/Raphasha27/kirov-dynamics) ecosystem.
 
 **Built by Koketso Raphasha — Practical AI for Africa**
