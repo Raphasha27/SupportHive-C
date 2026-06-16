@@ -6,7 +6,9 @@ Mission-critical, event-driven multi-tenant support & SLA engine built in pure, 
 
 Clone the repository:
 
-```bash
+```ba
+[![Security](https://img.shields.io/badge/Security-Policy-1f6feb?style=for-the-badge&logo=github)](SECURITY.md)
+sh
 git clone https://github.com/Raphasha27/SupportHive-C.git
 cd SupportHive-C
 ```
