@@ -11,6 +11,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
     - name: Run Generic Build
       run: echo "Generic build/test step. Update this with your project commands."
