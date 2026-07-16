@@ -1,6 +1,6 @@
 # Supporthive C
 
-Mission-critical, event-driven multi-tenant support & SLA engine built in pure, high-performance C.
+Event-driven multi-tenant support & SLA engine built in pure, lightweight C.
 
 ## Getting Started
 
@@ -37,3 +37,4 @@ Contact → https://github.com/Raphasha27
 Part of the [Kirov Dynamics](https://github.com/Raphasha27/kirov-dynamics) ecosystem.
 
 **Built by Koketso Raphasha — Practical AI for Africa**
+
