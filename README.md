@@ -1,5 +1,7 @@
 # Supporthive C
 
+[![CI](https://github.com/Raphasha27/SupportHive-C/actions/workflows/ci.yml/badge.svg)](https://github.com/Raphasha27/SupportHive-C/actions/workflows/ci.yml)
+
 Event-driven multi-tenant support & SLA engine built in pure, lightweight C.
 
 ## Getting Started
